@@ -1,16 +1,19 @@
-FROM ubuntu:latest
+# Use an official Python runtime as a parent image
+FROM python:3.6
 
-#Create app directory
-RUN apt-get update -y
-RUN apt-get install -y python-pip python-dev build-essential
+# Adding backend directory to make absolute filepaths consistent across services
+WORKDIR /app/backend
 
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# Install Python dependencies
+COPY requirements.txt /app/backend
+RUN pip3 install --upgrade pip -r requirements.txt
 
-# We copy just the requirements.txt first to leverage Docker cache
-COPY requirements.txt /usr/src/app
+# Add the rest of the code
+COPY . /app/backend
 
-RUN pip install -r requirements.txt
+# Make port 8000 available for the app
+EXPOSE 8000
 
-ENTRYPOINT ["flask"]
-CMD [ "npm", "--host=0.0.0.0" ]
+# Be sure to use 0.0.0.0 for the host within the Docker container,
+# otherwise the browser won't be able to find it
+CMD python3 manage.py runserver 0.0.0.0:8000
