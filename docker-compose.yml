@@ -7,4 +7,37 @@ services:
             - ./product:/usr/src/app
         ports:
             - 5001:80
-    
+
+    # redis:
+    #     image: redis
+    #     command: redis-server /usr/local/etc/redis/redis.conf
+    #     volumes:
+    #         - /redis.conf:/usr/local/etc/redis/redis.conf
+    #     ports:
+    #         - "6379:6379"
+
+    # frontend:
+    #     container_name: frontend
+    #     build:
+    #         context: ./frontend
+    #         dockerfile: Dockerfile
+    #     volumes:
+    #         - './frontend/:/usr/src/app'
+    #     ports:
+    #         - '3000:3000'
+    #     environment:
+    #         - NODE_ENV=development
+
+    frontend:
+        # image: react:javascript
+        build: ./frontend
+        volumes:
+            - ./frontend:/var/www/html
+        ports:
+            - 5000:80
+        depends_on:
+            - product-service
+
+# https://runnable.com/docker/python/docker-compose-with-flask-apps
+# https://cheesyprogrammer.com/2018/01/31/docker-compose-redis-flask-and-reactjs-part-2/
+# https://medium.com/@dummydevops/containerizing-a-flask-react-app-with-docker-compose-5c06ef73cc8f

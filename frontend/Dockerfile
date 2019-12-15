@@ -1,10 +1,25 @@
-FROM node:latest
+# base image
+FROM node:12.2.0-alpine
 
-#Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# set working directory
+WORKDIR /app
 
-# We copy just the requirements.txt first to leverage Docker cache
-COPY package.json /usr/src/app
+# add `/app/node_modules/.bin` to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-CMD [ "npm", "start" ]
+# install and cache app dependencies
+COPY package.json /app/package.json
+RUN npm install --silent
+RUN npm install react-scripts@3.0.1 -g --silent
+
+# start app
+CMD ["npm", "start"]
+
+
+# https://mherman.org/blog/dockerizing-a-react-app/
+# docker build -t sample:dev .
+# docker run -v ${PWD}:/app -v /app/node_modules -p 3001:3000 --rm sample:dev
+
+# $ docker-machine create -d virtualbox sample
+# $ docker-machine env sample
+# $ eval $(docker-machine env sample)

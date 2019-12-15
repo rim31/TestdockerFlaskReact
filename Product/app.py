@@ -1,18 +1,11 @@
+#!flask/bin/python
 from flask import Flask
-from flask_restful import Resource, Api
-
+from todo import todo_api
+from flask_cors import CORS
+ 
 app = Flask(__name__)
-api = Api(app)
-
-class Product(Resource):
-    def get(self):
-        return {
-            'product': ['ice cream',
-                        'chocolat',
-                        'fruit']
-        }
-
-api.add_resource(Product, '/')
-
+app.register_blueprint(todo_api)
+CORS(app)
+ 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+    app.run(debug=True, host='0.0.0.0')
