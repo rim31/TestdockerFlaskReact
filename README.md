@@ -1,6 +1,6 @@
 # TestdockerFlaskReact
 test docker Py3 JS
-Juset playing with docker :
+Just playing with docker :
 - python
 - react js
 - docker / docker-compose
@@ -9,3 +9,6 @@ Juset playing with docker :
 thinking about a db
 
 https://www.youtube.com/watch?v=Qw9zlE3t8Ko
+
+
+https://scotch.io/tutorials/build-a-to-do-application-using-django-and-react
